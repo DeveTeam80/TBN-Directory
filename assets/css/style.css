@@ -8361,6 +8361,11 @@ div.sidebar__menu--social a {
   margin-right: 23px;
 }
 
+.single-serv-card{
+border:1px solid blue;
+padding-top: 20px;
+}
+
 .single-service:not(:last-child) {
   padding-bottom: 28px;
 }

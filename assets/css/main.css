@@ -2653,7 +2653,7 @@ a.f-btn.f-custom-btn {
 }
 
 .section-title-3 .sub-title {
-  color: #e74c3c;
+  color: #2d48c3;
   font-size: 16px;
   font-weight: 700;
   display: block;
@@ -2835,9 +2835,12 @@ a.f-btn.f-custom-btn {
   left: 0;
   top: 0;
   height: 100%;
-  width: 80%;
-  background: #e74c3c;
+  width: 100%;
+  background: #f4f4f4;
   border-radius: 0 0 15px 0;
+}
+.faq-area {
+  background: #f4f4f4;
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .fun-fact-area-2:before {
@@ -3870,7 +3873,10 @@ a.f-btn.f-custom-btn {
     margin-bottom: 10px;
   }
 }
-
+.filter-grid{
+  align-items: flex-start;
+  justify-content: flex-start;
+}
 .f-btn {
   color: #181b1d;
   font-size: 14px;
@@ -4626,7 +4632,7 @@ a.f-btn.f-custom-btn {
 }
 .testimonial-wrap-3 .message-wrap-3 .rating {
   font-size: 14px;
-  color: #e74c3c;
+  color: #2d48c3;
   margin-bottom: 10px;
 }
 .testimonial-wrap-3 .message-wrap-3 .rating i {
@@ -4654,7 +4660,7 @@ a.f-btn.f-custom-btn {
   font-size: 20px;
   background: #fff;
   text-align: center;
-  color: #e74c3c;
+  color: #2d48c3;
   box-shadow: 0px 16px 32px 0px rgba(171, 171, 171, 0.1);
   margin-right: 20px;
 }
@@ -8766,6 +8772,13 @@ div.sidebar__menu--social a {
   display: inline-block;
   margin-right: 23px;
 }
+
+.single-serv-card{
+background-color: #f3f3f3;
+padding-top: 20px;
+margin-right: 15px;
+}
+
 
 .single-service:not(:last-child) {
   padding-bottom: 28px;
