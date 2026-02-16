@@ -30,7 +30,7 @@
     font-size: 50px;
     color: #fff;
     border-radius: 50%;
-    @include mq(xs){
+    @include mq(xs) {
       display: none;
     }
   }
