@@ -3873,7 +3873,7 @@ a.f-btn.f-custom-btn {
     margin-bottom: 10px;
   }
 }
-.filter-grid{
+.filter-grid {
   align-items: flex-start;
   justify-content: flex-start;
 }
@@ -8773,12 +8773,11 @@ div.sidebar__menu--social a {
   margin-right: 23px;
 }
 
-.single-serv-card{
-background-color: #f3f3f3;
-padding-top: 20px;
-margin-right: 15px;
+.single-serv-card {
+  background-color: #f3f3f3;
+  padding-top: 20px;
+  margin-right: 15px;
 }
-
 
 .single-service:not(:last-child) {
   padding-bottom: 28px;
