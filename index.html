@@ -103,14 +103,19 @@
       }
     </style>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9YLEGKXMBQ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-9YLEGKXMBQ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  gtag('config', 'G-9YLEGKXMBQ');
-</script>
+      gtag("config", "G-9YLEGKXMBQ");
+    </script>
   </head>
 
   <body>
@@ -1107,9 +1112,10 @@
               <div class="destination-wrap f-destination mb-30">
                 <div class="thumb">
                   <img
-                    src="assets/img/index-grid/mumbai-grid.jpg"
+                    src="assets/img/index-grid/mumbai-grid.png"
                     alt="image"
-                    style="width: 25vw !important; height: 25vh !important"
+                    class=""
+                    style="width: 25vw !important; height: 28vh !important"
                   />
                 </div>
                 <div class="content">
@@ -1126,7 +1132,7 @@
                   <img
                     src="assets/img/index-grid/pune-grid.jpg"
                     alt="image"
-                    style="width: 25vw !important; height: 25vh !important"
+                    style="width: 25vw !important; height: 28vh !important"
                   />
                 </div>
                 <div class="content">
@@ -1141,7 +1147,7 @@
                   <img
                     src="assets/img/index-grid/delhi-grid.webp"
                     alt="image"
-                    style="width: 25vw !important; height: 25vh !important"
+                    style="width: 25vw !important; height: 28vh !important"
                   />
                 </div>
                 <div class="content">
@@ -1158,7 +1164,7 @@
                   <img
                     src="assets/img/index-grid/hyderabad-grid.jpg"
                     alt="image"
-                    style="width: 25vw !important; height: 25vh !important"
+                    style="width: 25vw !important; height: 28vh !important"
                   />
                 </div>
                 <div class="content">
@@ -1175,7 +1181,7 @@
                   <img
                     src="assets/img/index-grid/surat-grid.jpg"
                     alt="image"
-                    style="width: 25vw !important; height: 25vh !important"
+                    style="width: 25vw !important; height: 28vh !important"
                   />
                 </div>
                 <div class="content">
@@ -1192,7 +1198,7 @@
                   <img
                     src="assets/img/index-grid/chennai-grid.jpg"
                     alt="image"
-                    style="width: 25vw !important; height: 25vh !important"
+                    style="width: 25vw !important; height: 28vh !important"
                   />
                 </div>
                 <div class="content">
@@ -1209,7 +1215,7 @@
                   <img
                     src="assets/img/index-grid/ahmedabad-grid.jpg"
                     alt="image"
-                    style="width: 25vw !important; height: 25vh !important"
+                    style="width: 25vw !important; height: 28vh !important"
                   />
                 </div>
                 <div class="content">
@@ -1351,6 +1357,7 @@
           if (!gridEl) return;
 
           const PER_PAGE = 8;
+
           // --- Helpers ---
           function mapCategoryToClass(cat) {
             if (!cat) return "";
@@ -1362,8 +1369,7 @@
               c.includes("digital")
             )
               return "it";
-            if (c.includes("manufact") || c.includes("manufacturer"))
-              return "manufacturer";
+            if (c.includes("manufact")) return "manufacturer";
             if (c.includes("tour") || c.includes("travel")) return "tour";
             if (c.includes("shop") || c.includes("supplier")) return "supplier";
             if (c.includes("health")) return "healthcare";
@@ -1386,30 +1392,25 @@
 
           // --- State ---
           let iso = null;
-          let pendingFilter = null;
           let currentPage = 1;
           let totalPages = 1;
           let allItems = [];
 
-          // create pagination container (insert after the grid row)
           function ensurePaginationContainer() {
-            // if already present, return it
             let existing = document.querySelector(".f-pagination-wrapper");
             if (existing) return existing;
-
             const wrapper = document.createElement("div");
             wrapper.className = "f-pagination-wrapper";
             wrapper.innerHTML = `
-        <div class="row">
-          <div class="col-xl-12">
-            <div class="f-pagination mb-30 mb-xl-0 text-center">
-              <a href="#" class="prev-page" aria-label="Previous page"><i class="fal fa-long-arrow-left"></i></a>
-              <span class="page-numbers"></span>
-              <a href="#" class="next-page" aria-label="Next page"><i class="fal fa-long-arrow-right"></i></a>
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="f-pagination mb-30 mb-xl-0 text-center">
+                <a href="#" class="prev-page"><i class="fal fa-long-arrow-left"></i></a>
+                <span class="page-numbers"></span>
+                <a href="#" class="next-page"><i class="fal fa-long-arrow-right"></i></a>
+              </div>
             </div>
-          </div>
-        </div>
-      `;
+          </div>`;
             gridEl.insertAdjacentElement("afterend", wrapper);
             return wrapper;
           }
@@ -1422,310 +1423,122 @@
             for (let p = 1; p <= totalPages; p++) {
               const a = document.createElement("a");
               a.href = "#";
-              a.className = "page-number";
-              if (p === currentPage) a.classList.add("active");
+              a.className =
+                "page-number" + (p === currentPage ? " active" : "");
               a.dataset.page = p;
               a.textContent = p < 10 ? "0" + p : p;
-              a.addEventListener("click", function (ev) {
-                ev.preventDefault();
-                const page = parseInt(this.dataset.page, 10);
-                if (!isNaN(page)) {
-                  currentPage = page;
-                  applyPagination();
-                }
-              });
+              a.onclick = (e) => {
+                e.preventDefault();
+                currentPage = p;
+                applyPagination();
+              };
               numbersHolder.appendChild(a);
             }
 
-            // prev/next
-            wrapper
-              .querySelector(".prev-page")
-              .addEventListener("click", function (ev) {
-                ev.preventDefault();
-                if (currentPage > 1) {
-                  currentPage--;
-                  applyPagination();
-                }
-              });
-            wrapper
-              .querySelector(".next-page")
-              .addEventListener("click", function (ev) {
-                ev.preventDefault();
-                if (currentPage < totalPages) {
-                  currentPage++;
-                  applyPagination();
-                }
-              });
-
-            // hide controls if only one page
-            if (totalPages <= 1) {
-              wrapper.style.display = "none";
-            } else {
-              wrapper.style.display = "";
-            }
+            wrapper.style.display = totalPages <= 1 ? "none" : "";
           }
-
-          // get filtered elements (in DOM order)
-          function getFilteredElements() {
-            if (iso) {
-              return iso.getFilteredItemElements();
-            } else {
-              return Array.from(
-                document.querySelectorAll(".filter-grid .grid-item"),
-              );
-            }
-          }
-
-          // apply .paged-hide to items depending on page
           function applyPagination() {
-            const filtered = getFilteredElements();
-            const count = filtered.length;
-            totalPages = Math.max(1, Math.ceil(count / PER_PAGE));
+            const filtered = iso.getFilteredItemElements();
+            totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
 
-            // clamp current page
             if (currentPage > totalPages) currentPage = totalPages;
-            if (currentPage < 1) currentPage = 1;
 
-            // determine indexes
             const start = (currentPage - 1) * PER_PAGE;
             const end = start + PER_PAGE;
 
-            // ensure we have all items cached
-            allItems = Array.from(
-              document.querySelectorAll(".filter-grid .grid-item"),
-            );
+            // Lock current height to prevent jump
+            const currentHeight = gridEl.offsetHeight;
+            gridEl.style.minHeight = currentHeight + "px";
 
-            // Set paged-hide on items not in the current page slice (including items not in filtered)
             allItems.forEach((item) => {
               const idx = filtered.indexOf(item);
-              if (idx === -1) {
-                // item not in filtered set -> hide via paged-hide so it won't appear even if isotope changes layout
-                item.classList.add("paged-hide");
+              if (idx !== -1 && idx >= start && idx < end) {
+                item.classList.remove("paged-hide");
               } else {
-                if (idx >= start && idx < end) {
-                  item.classList.remove("paged-hide");
-                } else {
-                  item.classList.add("paged-hide");
-                }
+                item.classList.add("paged-hide");
               }
             });
 
-            // update pagination UI
-            buildPaginationControls();
-
-            // re-layout Isotope to recalc positions
-            if (iso) {
+            setTimeout(() => {
               iso.layout();
-            }
+
+              // Unlock height after layout settles
+              setTimeout(() => {
+                gridEl.style.minHeight = gridEl.scrollHeight + "px";
+              }, 100);
+
+              buildPaginationControls();
+            }, 50);
           }
 
-          // When a filter button is clicked we want to reset to page 1 and then paginate after Isotope arranged
-          function attachFilterButtonHandlers() {
-            const filterButtons =
-              document.querySelectorAll(".filter-nav button");
-            filterButtons.forEach((button) => {
-              button.addEventListener("click", function (e) {
-                e.preventDefault();
-                const filterValue = this.dataset.filter;
-
-                // Toggle active class visually
-                filterButtons.forEach((b) => b.classList.remove("active"));
-                this.classList.add("active");
-
-                currentPage = 1; // reset page
-
-                if (iso) {
-                  iso.arrange({
-                    filter: filterValue === "*" ? "*" : filterValue,
-                  });
-                  // applyPagination will run from isotope's arrangeComplete handler
-                } else {
-                  pendingFilter = filterValue;
-                }
-              });
-            });
-          }
-
-          // category tile behavior (scroll + filter)
-          function attachCategoryLinks() {
-            document
-              .querySelectorAll(".category-link")
-              .forEach(function (link) {
-                link.addEventListener("click", function (e) {
-                  e.preventDefault();
-                  const filterValue = this.getAttribute("data-filter");
-                  // remove active from filter nav
-                  document
-                    .querySelectorAll(".filter-nav button")
-                    .forEach(function (btn) {
-                      btn.classList.remove("active");
-                    });
-
-                  const targetButton = document.querySelector(
-                    '.filter-nav button[data-filter="' + filterValue + '"]',
-                  );
-                  if (targetButton) {
-                    targetButton.classList.add("active");
-                    // trigger the same click logic so pagination resets and isotope arranges
-                    targetButton.click();
-                  } else {
-                    // if no exact button exists, apply filter directly or queue it
-                    currentPage = 1;
-                    if (iso) {
-                      iso.arrange({
-                        filter: filterValue === "*" ? "*" : filterValue,
-                      });
-                    } else {
-                      pendingFilter = filterValue;
-                    }
-                  }
-
-                  // Smooth scroll to section
-                  const target = document.querySelector("#featured-section");
-                  if (target) {
-                    target.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    });
-                  }
-                });
-              });
-          }
-
-          // --- Render from JSON ---
+          // --- Load Data & Init ---
           fetch("assets/data/listings.json")
-            .then((res) => {
-              if (!res.ok)
-                throw new Error("Could not load listings.json: " + res.status);
-              return res.json();
-            })
+            .then((res) => res.json())
             .then((listings) => {
-              // Clear old static items (if any)
               gridEl.innerHTML = "";
-
-              // render all items
               listings.forEach((item) => {
-                const cls = mapCategoryToClass(item.category);
                 const col = document.createElement("div");
-                col.className = `col-xl-3 col-lg-4 col-md-6 col-sm-6 grid-item ${cls}`;
-                const safeLink = item.link ? item.link : "#";
+                col.className = `col-xl-3 col-lg-4 col-md-6 col-sm-6 grid-item ${mapCategoryToClass(item.category)}`;
                 col.innerHTML = `
-            <div class="featured-wrap featured-wrap-2 mb-30">
-              <div class="thumb">
-                <img src="${item.image}" alt="${item.name}" onerror="this.onerror=null;this.src='assets/img/index-grid/default-thumb.png'"/>
-              </div>
-              <div class="content">
-                <div class="icon">
-                  <i class="fad fa-house"></i>
+              <div class="featured-wrap featured-wrap-2 mb-30">
+                <div class="thumb"><img src="${item.image}" alt="${item.name}"></div>
+                <div class="content">
+                  <div class="rating">${renderStars(item.rating)}</div>
+                  <h4 class="title"><a href="${item.link || "#"}">${item.name}</a></h4>
+                  <div class="extra-info f-extra-info">
+                    <span><i class="fal fa-map-marker-alt"></i> ${item.location}</span>
+                  </div>
                 </div>
-                <div class="rating">
-                  ${renderStars(item.rating)}
-                </div>
-                <h4 class="title">
-                  <a href="${safeLink}">${item.name}</a>
-                </h4>
-                <div class="extra-info f-extra-info">
-                  <span><i class="fal fa-map-marker-alt"></i> ${item.location}</span>
-                  <a class="wishlist"><i class="fal fa-heart"></i></a>
-                </div>
-              </div>
-            </div>
-          `;
+              </div>`;
                 gridEl.appendChild(col);
               });
 
-              // cache items
-              allItems = Array.from(
-                document.querySelectorAll(".filter-grid .grid-item"),
-              );
+              allItems = Array.from(gridEl.querySelectorAll(".grid-item"));
 
-              // init Isotope after images have loaded
+              // Initialize Isotope
               imagesLoaded(gridEl, function () {
                 iso = new Isotope(gridEl, {
                   itemSelector: ".grid-item",
                   layoutMode: "fitRows",
+                  transitionDuration: "0.4s",
                 });
 
-                // If a filter was clicked before isotope ready, apply it now
-                if (pendingFilter !== null) {
-                  iso.arrange({
-                    filter: pendingFilter === "*" ? "*" : pendingFilter,
-                  });
-                  pendingFilter = null;
-                }
-
-                // when Isotope finishes arranging, apply pagination to whatever is visible
-                iso.on("arrangeComplete", function () {
-                  // reset page to 1 if called directly from arrange triggered by category buttons
-                  // (we already reset currentPage to 1 upon button click)
+                // Listen for when filtering finishes to trigger pagination
+                iso.on("arrangeComplete", () => {
                   applyPagination();
                 });
 
-                // initial pagination (first render)
-                currentPage = 1;
+                // Initial pagination
                 applyPagination();
               });
 
-              // attach handlers
-              attachFilterButtonHandlers();
-              attachCategoryLinks();
-
-              // TAB / HIDDEN CONTAINER FIX
-              function relayoutIso() {
-                if (!iso) return;
-                setTimeout(function () {
-                  imagesLoaded(gridEl, function () {
-                    iso.layout();
-                    // ensure pagination applies after layout
-                    applyPagination();
-                  });
-                }, 150);
-              }
-
-              // Bootstrap tab event
-              document
-                .querySelectorAll('[data-bs-toggle="tab"]')
-                .forEach(function (tabBtn) {
-                  tabBtn.addEventListener("shown.bs.tab", function () {
-                    relayoutIso();
-                  });
+              // Filter Button Click
+              document.querySelectorAll(".filter-nav button").forEach((btn) => {
+                btn.addEventListener("click", function () {
+                  document
+                    .querySelectorAll(".filter-nav button")
+                    .forEach((b) => b.classList.remove("active"));
+                  this.classList.add("active");
+                  currentPage = 1; // Reset to page 1 on new filter
+                  iso.arrange({ filter: this.dataset.filter });
                 });
-
-              // MutationObserver fallback: if ancestor/class/style changes and grid becomes visible, relayout
-              const obs = new MutationObserver(function () {
-                if (gridEl.offsetParent !== null) {
-                  relayoutIso();
-                }
               });
 
-              obs.observe(gridEl, {
-                attributes: true,
-                attributeFilter: ["style", "class"],
-              });
-              let ancestor = gridEl.parentElement;
-              for (let i = 0; i < 4 && ancestor; i++) {
-                obs.observe(ancestor, {
-                  attributes: true,
-                  attributeFilter: ["style", "class"],
+              // Category Links (Top Section)
+              document.querySelectorAll(".category-link").forEach((link) => {
+                link.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  const filter = this.dataset.filter;
+                  const btn = document.querySelector(
+                    `.filter-nav button[data-filter="${filter}"]`,
+                  );
+                  if (btn) btn.click();
+                  document
+                    .querySelector("#featured-section")
+                    .scrollIntoView({ behavior: "smooth" });
                 });
-                ancestor = ancestor.parentElement;
-              }
-            })
-            .catch((err) => {
-              console.error(err);
-              gridEl.innerHTML =
-                '<div class="col-12"><p style="color:#f00">Failed to load listings.</p></div>';
+              });
             });
-
-          // add some necessary CSS for paged-hide (you can move this to your main.css)
-          const style = document.createElement("style");
-          style.innerHTML = `
-      .paged-hide { display: none !important; }
-      .f-pagination .page-number { margin: 0 6px; padding: 6px 10px; display: inline-block; color: inherit; text-decoration: none; border-radius: 4px; }
-      .f-pagination .page-number.active { background: rgba(0,0,0,0.06); font-weight: 700; }
-      .f-pagination .prev-page, .f-pagination .next-page { margin: 0 10px; color: inherit; text-decoration:none; }
-    `;
-          document.head.appendChild(style);
         });
       })();
     </script>
