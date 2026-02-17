@@ -47,13 +47,13 @@
 ******************
 */
 
-
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,500&display=swap");
 
 @font-face {
-  font-family: 'edwardian_script_itc';
-  src: url('../fonts/itcedscr-webfont.woff2') format('woff2'),
-  url('../fonts/itcedscr-webfont.woff') format('woff');
+  font-family: "edwardian_script_itc";
+  src:
+    url("../fonts/itcedscr-webfont.woff2") format("woff2"),
+    url("../fonts/itcedscr-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -63,6 +63,7 @@ body {
   font-size: $body-fz;
   font-family: $body-fonts;
   font-weight: 400;
+  overflow-x: hidden !important;
 }
 
 img {
@@ -70,13 +71,12 @@ img {
   @include transition(0.3s);
 }
 
-
 /* Shadow and Outline */
 
 a {
   outline: none;
   text-decoration: none;
-  @include transition(.3s);
+  @include transition(0.3s);
 
   &:active,
   &:hover {
@@ -86,7 +86,7 @@ a {
 
 button,
 .btn {
-  @include transition(.3s);
+  @include transition(0.3s);
 
   &:active,
   &:hover,
@@ -118,7 +118,6 @@ textarea:focus,
   box-shadow: none;
   color: #fff;
 }
-
 
 /* Heading */
 
@@ -196,7 +195,6 @@ p {
   }
 }
 
-
 /* Form */
 
 label {
@@ -224,7 +222,6 @@ label {
   text-shadow: none;
 }
 
-
 /* Placeholder */
 
 *::-moz-placeholder {
@@ -239,10 +236,9 @@ label {
   opacity: 1;
 }
 
-
 /* Button */
 
-.btn{
+.btn {
   padding: 18px 40px;
   border-radius: 15px;
   font-weight: 700;
@@ -272,7 +268,6 @@ label {
   }
 }
 
-
 .btn-theme-3 {
   color: #fff;
   border-color: $theme-color-3;
@@ -292,7 +287,6 @@ label {
 .btn-square {
   border-radius: 0 !important;
 }
-
 
 /* Bg Color */
 
@@ -370,7 +364,6 @@ label {
   color: $theme-color-2;
 }
 
-
 /* Others Common Css Here :) */
 
 #scrollUp {
@@ -411,24 +404,25 @@ label {
 }
 
 .f-left {
-  float: left
+  float: left;
 }
 
 .f-right {
-  float: right
+  float: right;
 }
 
 .fix {
-  overflow: hidden
+  overflow: hidden;
 }
 
 .separator {
-  border-top: 1px solid #f2f2f2
+  border-top: 1px solid #f2f2f2;
 }
 // column gutter customize
-.row-20>.col, .no-gutters>[class*=col-] {
- padding-left: 10px;
- padding-right: 10px;
+.row-20 > .col,
+.no-gutters > [class*="col-"] {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 // spacing
 .pt-232 {
@@ -549,7 +543,7 @@ label {
   float: right;
 }
 .comment-respond input {
-	width: 100%;
+  width: 100%;
 }
 .row.custom-row {
   margin-right: -12.5px;

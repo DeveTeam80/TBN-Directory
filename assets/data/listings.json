@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Najmi Group",
+    "category": "Real Estate",
+    "location": "Pune, India",
+    "phone": "Contact for Details",
+    "rating": 4.0,
+    "image": "assets/img/index-grid/najmi-grid.png",
+    "link": "#"
+  },
+  {
+    "name": "Continental Group",
+    "category": "Real Estate",
+    "location": "Mumbai, India",
+    "phone": "Contact for Details",
+    "rating": 4.0,
+    "image": "assets/img/index-grid/continental-grid.png",
+    "link": "continental-group"
+  },
+  {
+    "name": "Visionary Services",
+    "category": "IT & Marketing",
+    "location": "Pune, India",
+    "phone": "Contact for Details",
+    "rating": 5.0,
+    "image": "assets/img/index-grid/visionary-grid.png",
+    "link": "visionary-services"
+  },
+  {
+    "name": "Hutaib Electricals",
+    "category": "Manufacturer",
+    "location": "Pune, India",
+    "phone": "Contact for Details",
+    "rating": 5.0,
+    "image": "assets/img/index-grid/hutaib-grid.png",
+    "link": "#"
+  },
+  {
+    "name": "Alfa Fans",
+    "category": "Manufacturer",
+    "location": "Mumbai, India",
+    "phone": "Contact for Details",
+    "rating": 4.0,
+    "image": "assets/img/index-grid/alfa-grid.png",
+    "link": "#"
+  },
+  {
+    "name": "Infra.Health",
+    "category": "Health",
+    "location": "Mumbai, India",
+    "phone": "Contact for Details",
+    "rating": 4.0,
+    "image": "assets/img/index-grid/infra-grid.png",
+    "link": "#"
+  },
+  {
+    "name": "SprayLite",
+    "category": "Manufacturer",
+    "location": "Mumbai, India",
+    "phone": "Contact for Details",
+    "rating": 4.0,
+    "image": "assets/img/index-grid/spray-lite-grid.png",
+    "link": "#"
+  },
+  {
+    "name": "Travolex",
+    "category": "Tours & Travel",
+    "location": "Pune, India",
+    "phone": "Contact for Details",
+    "rating": 4.0,
+    "image": "assets/img/index-grid/travolex-grid.png",
+    "link": "#"
+  }
+]
