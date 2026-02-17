@@ -2539,16 +2539,19 @@ a.f-btn.f-custom-btn {
   visibility: visible;
 }
 .destination-wrap .thumb {
+  aspect-ratio: 16 / 9; /* change to 4/3, 3/2 etc. as you like */
   overflow: hidden;
+  border-radius: 4px;
 }
+
 .destination-wrap .thumb img {
   width: 100%;
-  -webkit-transition: all 0.3s linear 0s;
-  -moz-transition: all 0.3s linear 0s;
-  -ms-transition: all 0.3s linear 0s;
-  -o-transition: all 0.3s linear 0s;
-  transition: all 0.3s linear 0s;
+  height: 100%;
+  object-fit: cover; /* preserves aspect ratio, fills the box, crops overflow */
+  display: block;
+  border-radius: 1rem;
 }
+
 .destination-wrap .content {
   position: absolute;
   bottom: -100px;
