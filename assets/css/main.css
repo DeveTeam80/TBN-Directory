@@ -3879,7 +3879,9 @@ a.f-btn.f-custom-btn {
 .filter-grid {
   align-items: flex-start;
   justify-content: flex-start;
+  min-height: 400px;
 }
+
 .f-btn {
   color: #181b1d;
   font-size: 14px;
@@ -8744,6 +8746,10 @@ div.sidebar__menu--social a {
   overflow: hidden;
 }
 
+.news-description {
+  padding-top: 5rem;
+}
+
 .news-description a {
   color: #2d48c3;
   font-weight: 500;
@@ -10815,3 +10821,13 @@ p.mb-45 {
 }
 
 /*# sourceMappingURL=main.css.map */
+.featured-wrap-3 .thumb {
+  position: relative;
+  z-index: 2;
+}
+
+.featured-wrap-3 .thumb a {
+  display: block;
+  position: relative;
+  z-index: 3;
+}

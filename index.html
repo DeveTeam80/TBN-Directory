@@ -1167,6 +1167,7 @@
                     style="width: 25vw !important; height: 28vh !important"
                   />
                 </div>
+
                 <div class="content">
                   <h5>
                     <a href="#">Hyderabad</a>
@@ -1357,6 +1358,7 @@
           if (!gridEl) return;
 
           const PER_PAGE = 8;
+          gridEl.style.minHeight = "400px";
 
           // --- Helpers ---
           function mapCategoryToClass(cat) {
@@ -1394,7 +1396,6 @@
           let iso = null;
           let currentPage = 1;
           let totalPages = 1;
-          let allItems = [];
 
           function ensurePaginationContainer() {
             let existing = document.querySelector(".f-pagination-wrapper");
@@ -1405,9 +1406,7 @@
           <div class="row">
             <div class="col-xl-12">
               <div class="f-pagination mb-30 mb-xl-0 text-center">
-                <a href="#" class="prev-page"><i class="fal fa-long-arrow-left"></i></a>
                 <span class="page-numbers"></span>
-                <a href="#" class="next-page"><i class="fal fa-long-arrow-right"></i></a>
               </div>
             </div>
           </div>`;
@@ -1415,63 +1414,82 @@
             return wrapper;
           }
 
-          function buildPaginationControls() {
-            const wrapper = ensurePaginationContainer();
-            const numbersHolder = wrapper.querySelector(".page-numbers");
-            numbersHolder.innerHTML = "";
-
-            for (let p = 1; p <= totalPages; p++) {
-              const a = document.createElement("a");
-              a.href = "#";
-              a.className =
-                "page-number" + (p === currentPage ? " active" : "");
-              a.dataset.page = p;
-              a.textContent = p < 10 ? "0" + p : p;
-              a.onclick = (e) => {
-                e.preventDefault();
-                currentPage = p;
-                applyPagination();
-              };
-              numbersHolder.appendChild(a);
-            }
-
-            wrapper.style.display = totalPages <= 1 ? "none" : "";
+          function ensureNoListingsElement() {
+            let el = document.querySelector(".no-listings-row");
+            if (el) return el;
+            el = document.createElement("div");
+            el.className = "no-listings-row";
+            el.innerHTML = `
+          <div class="row">
+            <div class="col-12 text-center py-5">
+              <h2 class="no-listings-message" aria-live="polite">No listings found.</h2>
+            </div>
+          </div>`;
+            gridEl.insertAdjacentElement("afterend", el);
+            el.style.display = "none";
+            return el;
           }
+
           function applyPagination() {
+            if (!iso) return;
+
             const filtered = iso.getFilteredItemElements();
-            totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+            const filteredLength = filtered.length;
+            const noResultsEl = ensureNoListingsElement();
+            const pagWrapper = ensurePaginationContainer();
 
-            if (currentPage > totalPages) currentPage = totalPages;
+            if (filteredLength === 0) {
+              // 🔥 Hide the grid entirely as requested
+              gridEl.style.display = "none";
+              noResultsEl.style.display = "";
+              pagWrapper.style.display = "none";
+            } else {
+              // 🔥 Show the grid so it can be laid out
+              gridEl.style.display = "";
+              noResultsEl.style.display = "none";
 
-            const start = (currentPage - 1) * PER_PAGE;
-            const end = start + PER_PAGE;
+              totalPages = Math.max(1, Math.ceil(filteredLength / PER_PAGE));
+              if (currentPage > totalPages) currentPage = totalPages;
 
-            // Lock current height to prevent jump
-            const currentHeight = gridEl.offsetHeight;
-            gridEl.style.minHeight = currentHeight + "px";
+              const start = (currentPage - 1) * PER_PAGE;
+              const end = start + PER_PAGE;
 
-            allItems.forEach((item) => {
-              const idx = filtered.indexOf(item);
-              if (idx !== -1 && idx >= start && idx < end) {
-                item.classList.remove("paged-hide");
-              } else {
-                item.classList.add("paged-hide");
-              }
-            });
+              filtered.forEach((item, index) => {
+                item.style.display =
+                  index >= start && index < end ? "" : "none";
+              });
 
-            setTimeout(() => {
               iso.layout();
 
-              // Unlock height after layout settles
-              setTimeout(() => {
-                gridEl.style.minHeight = gridEl.scrollHeight + "px";
-              }, 100);
-
-              buildPaginationControls();
-            }, 50);
+              // Build pagination
+              const numbersHolder = pagWrapper.querySelector(".page-numbers");
+              numbersHolder.innerHTML = "";
+              if (totalPages <= 1) {
+                pagWrapper.style.display = "none";
+              } else {
+                pagWrapper.style.display = "";
+                for (let p = 1; p <= totalPages; p++) {
+                  const a = document.createElement("a");
+                  a.href = "#";
+                  a.className =
+                    "page-number" + (p === currentPage ? " active" : "");
+                  a.textContent = p < 10 ? "0" + p : p;
+                  a.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage = p;
+                    applyPagination();
+                    gridEl.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                  });
+                  numbersHolder.appendChild(a);
+                }
+              }
+            }
           }
 
-          // --- Load Data & Init ---
+          // --- Initial Load ---
           fetch("assets/data/listings.json")
             .then((res) => res.json())
             .then((listings) => {
@@ -1481,21 +1499,20 @@
                 col.className = `col-xl-3 col-lg-4 col-md-6 col-sm-6 grid-item ${mapCategoryToClass(item.category)}`;
                 col.innerHTML = `
               <div class="featured-wrap featured-wrap-2 mb-30">
-                <div class="thumb"><img src="${item.image}" alt="${item.name}"></div>
+                <a href="${item.link || "#"}">
+                  <div class="thumb"><img src="${item.image}" alt="${item.name}"></div>
+                </a>
                 <div class="content">
                   <div class="rating">${renderStars(item.rating)}</div>
                   <h4 class="title"><a href="${item.link || "#"}">${item.name}</a></h4>
                   <div class="extra-info f-extra-info">
-                    <span><i class="fal fa-map-marker-alt"></i> ${item.location}</span>
+                    <span><i class="fal fa-map-marker-alt"></i> ${item.location || ""}</span>
                   </div>
                 </div>
               </div>`;
                 gridEl.appendChild(col);
               });
 
-              allItems = Array.from(gridEl.querySelectorAll(".grid-item"));
-
-              // Initialize Isotope
               imagesLoaded(gridEl, function () {
                 iso = new Isotope(gridEl, {
                   itemSelector: ".grid-item",
@@ -1503,39 +1520,29 @@
                   transitionDuration: "0.4s",
                 });
 
-                // Listen for when filtering finishes to trigger pagination
-                iso.on("arrangeComplete", () => {
-                  applyPagination();
-                });
-
-                // Initial pagination
+                iso.on("arrangeComplete", applyPagination);
                 applyPagination();
+                setTimeout(() => {
+                  gridEl.style.minHeight = "";
+                }, 300);
               });
 
-              // Filter Button Click
+              // Filter Button Logic
               document.querySelectorAll(".filter-nav button").forEach((btn) => {
                 btn.addEventListener("click", function () {
                   document
                     .querySelectorAll(".filter-nav button")
                     .forEach((b) => b.classList.remove("active"));
                   this.classList.add("active");
-                  currentPage = 1; // Reset to page 1 on new filter
-                  iso.arrange({ filter: this.dataset.filter });
-                });
-              });
 
-              // Category Links (Top Section)
-              document.querySelectorAll(".category-link").forEach((link) => {
-                link.addEventListener("click", function (e) {
-                  e.preventDefault();
-                  const filter = this.dataset.filter;
-                  const btn = document.querySelector(
-                    `.filter-nav button[data-filter="${filter}"]`,
-                  );
-                  if (btn) btn.click();
-                  document
-                    .querySelector("#featured-section")
-                    .scrollIntoView({ behavior: "smooth" });
+                  currentPage = 1;
+
+                  // 🔥 CRITICAL: Show the grid immediately before arranging.
+                  // If it stays 'display: none', Isotope can't find the items to filter them.
+                  gridEl.style.display = "";
+                  ensureNoListingsElement().style.display = "none";
+
+                  iso.arrange({ filter: this.dataset.filter });
                 });
               });
             });
